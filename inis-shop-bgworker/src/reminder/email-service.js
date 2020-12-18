@@ -1,9 +1,9 @@
 
-const {sendMail} = require('./../mail-sender-2');
-const {createICS} = require('./../ics-creator');
+const {sendMail} = require('./mail-sender-2');
+const {createICS} = require('./ics-creator');
 
-const config = require('config');
 const { calculatePrice } = require('./PriceCalculator');
+const { FormatDateFromString } = require('./DateFormatter');
 
 
 const faq = [
@@ -58,10 +58,10 @@ const sendConfirmationEmail =  async (options) =>
     content += `<p>Your booking number is <strong>"${options.bookingRef}"</strong>, please have this number handy when you attend at the clinic.</p>`;
     content += `<p>Below is your booking information : </p>`;
     content += '<ul>';
-    content += `<li> Appointment Time : ${options.bookingDate} at ${options.bookingTime} </li>`;
+    content += `<li> Appointment Time : ${FormatDateFromString(options.bookingDate)} at ${options.bookingTime} </li>`;
     content += `<li> Forename : ${options.forename.toUpperCase()} </li>`;
     content += `<li> Lastname : ${options.surname.toUpperCase()} </li>`;
-    content += `<li> Date of Birth : ${options.birthDate} </li>`;
+    content += `<li> Date of Birth : ${FormatDateFromString(options.birthDate)} </li>`;
     content += `<li> Title : ${options.title} </li>`;
     content += `<li> Gender : ${options.gender} </li>`;
     content += `<li> Post Code : ${options.postCode} </li>`;
@@ -105,7 +105,7 @@ const sendConfirmationEmail =  async (options) =>
     content += '</div>'
 
     content += `<div style="width:80%; padding: '25px 0 10px 0'; font-size: 14px; line-height: 25px; font-family: sans-serif;text-align: left;color: #555 !important;">`
-    content += `<p>PLEASE note there might be a slight delay in your appointment time (less than 10 minutes) to help maintain social distancing, Patients are welcome to access the service now on a walk-in basis, however, you may face some slight delays on a walk-in basis as we will prioritise patients who have confirmed appointments.</p>`;
+    content += `<p>PLEASE note there might be a slight delay in your appointment time (less than 10 minutes) to help maintain social distancing.</p>`;
     content += '<p>Our address is: 117A Harley Street, Marylebone, London W1G 6AT, UK. The clinic is located on the corner of Harley and Devonshire Streets, we have a blue door please ensure you attend the correct address for your appointment. Please do let us know if you might be late, The results will be delivered to you by email. Please make sure to add results@medicalexpressclinic.co.uk to your safe sender list to ensure deliverability of your results. </p>'
     content += '</div>'
 
@@ -133,10 +133,10 @@ const sendConfirmationEmailForTR =  async (options) =>
     content += `<p>Your booking number is <strong>"${options.bookingRef}"</strong>, please have this number handy when you attend at the clinic.</p>`;
     content += `<p>Below is your booking information : </p>`;
     content += '<ul>';
-    content += `<li> Appointment Time : ${options.bookingDate} at ${options.bookingTime} </li>`;
+    content += `<li> Appointment Time : ${FormatDateFromString(options.bookingDate)} at ${options.bookingTime} </li>`;
     content += `<li> Forename : ${options.forename.toUpperCase()} </li>`;
     content += `<li> Lastname : ${options.surname.toUpperCase()} </li>`;
-    content += `<li> Date of Birth : ${options.birthDate} </li>`;
+    content += `<li> Date of Birth : ${FormatDateFromString(options.birthDate)} </li>`;
     content += `<li> Title : ${options.title} </li>`;
     content += `<li> Gender : ${options.gender} </li>`;
     content += `<li> Telephone : ${options.phone} </li>`;
@@ -187,7 +187,7 @@ const sendConfirmationEmailForTR =  async (options) =>
     content += '</div>'
 
     content += `<div style="width:80%; padding: '25px 0 10px 0'; font-size: 14px; line-height: 25px; font-family: sans-serif;text-align: left;color: #555 !important;">`
-    content += `<p>PLEASE note there might be a slight delay in your appointment time (less than 10 minutes) to help maintain social distancing, Patients are welcome to access the service now on a walk-in basis, however, you may face some slight delays on a walk-in basis as we will prioritise patients who have confirmed appointments.</p>`;
+    content += `<p>PLEASE note there might be a slight delay in your appointment time (less than 10 minutes) to help maintain social distancing.</p>`;
     content += '<p>Our address is: 117A Harley Street, Marylebone, London W1G 6AT, UK. The clinic is located on the corner of Harley and Devonshire Streets, we have a blue door please ensure you attend the correct address for your appointment. Please do let us know if you might be late, The results will be delivered to you by email. Please make sure to add results@medicalexpressclinic.co.uk to your safe sender list to ensure deliverability of your results. </p>'
     content += '</div>'
 
@@ -204,31 +204,7 @@ const sendConfirmationEmailForTR =  async (options) =>
 }
 
 
-const sendAntiBodyEmail =  async (options) =>
-{
-    var content = '';
-    content += `<div style="padding: '25px 0 10px 0'; font-size: 16px; line-height: 25px; font-family: sans-serif;text-align: left;color: #333 !important;">`
-    content += `<p>Booking information : </p>`;
-    content += '<ul>';
-    content += `<li> Appointment Time : ${options.bookingDate} at ${options.bookingTime} </li>`;
-    content += `<li> Forename : ${options.forename} </li>`;
-    content += `<li> Lastname : ${options.surname} </li>`;
-    content += `<li> Date of Birth : ${options.birthDate} </li>`;
-    content += `<li> Email Address : ${options.email} </li>`;
-    content += `<li> Address : ${options.address} </li>`;
-    content += `<li> Telephone : ${options.phone} </li>`;
-    content += `</ul>`;
-    content += `<p>Kind Regards,</p>`;
-    content += `<p>Medical Express Clinic,</p>`;
-    content += '</div>'
-
-    await sendMail(config.AntibodyEmail, `${options.forenameCapital} ${options.surnameCapital} ${options.birthDate} COVID-19 Antibody Test` , content, null);
-   
-}
-
-
 
 module.exports = {
     sendConfirmationEmail : sendConfirmationEmail,
-    sendAntiBodyEmail : sendAntiBodyEmail
 };

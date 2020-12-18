@@ -3,11 +3,6 @@ const calculatePrice = (person) =>
 {
 
     var price = 199;
-
-    if (person.tr)
-    {
-        price = 250;
-    }
     
     if (person.certificate)
     {
