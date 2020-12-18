@@ -1,23 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-const timeService = require('./../services/time-service');
-const bookingService = require('./../services/booking-service');
-const pdfService = require('./../services/pdf-service');
+const feedService = require('./../services/feed-service');
 
-/* GET Apis listing. */
-router.get('/', function(req, res, next) {
-  res.send('the list of APIS');
+
+router.use('/feed', feedService);
+
+
+
+router.use('/' , (req,res,next) => {
+
+  res.status(404).send('invalid endpoint');
+  res.end();
+
 });
-
-
-
-  router.use('/time', timeService);
-
-  router.use('/book', bookingService);
-
-  router.use('/pdf', pdfService);
-
 
 
 

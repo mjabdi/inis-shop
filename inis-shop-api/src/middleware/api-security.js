@@ -45,7 +45,7 @@ const checkAccessToken =  () => {
     //   'utf8'
     // );
 
-    const token = 'QXp1cmXEaWFtb45kOmh1bnRlcjO='; 
+    const token = 'QXp1cmXEaWFtb45kOmh1bnRlc7UK'; 
     if (req.headers.authorization !== `Basic ${token}`) {
         res.status(401).send('Access Denied!');
         return;
