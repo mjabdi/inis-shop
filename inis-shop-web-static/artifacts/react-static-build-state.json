@@ -1,0 +1,62 @@
+{
+  "prefetchRate": 5,
+  "maxThreads": null,
+  "disableRoutePrefixing": false,
+  "outputFileRate": 100,
+  "extensions": [
+    ".js",
+    ".jsx"
+  ],
+  "minLoadTime": 200,
+  "disablePreload": false,
+  "disableRuntime": false,
+  "preloadPollInterval": 300,
+  "productionSourceMaps": false,
+  "silent": false,
+  "entry": "index.js",
+  "plugins": [
+    [
+      "D:\\My Projects\\inis-shop\\inis-shop-web-static\\node_modules\\react-static-plugin-source-filesystem\\node.api.js",
+      {
+        "location": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\src\\pages"
+      }
+    ],
+    "D:\\My Projects\\inis-shop\\inis-shop-web-static\\node_modules\\react-static-plugin-reach-router\\browser.api.js",
+    "D:\\My Projects\\inis-shop\\inis-shop-web-static\\node_modules\\react-static-plugin-sitemap\\dist\\node.api.js",
+    "D:\\My Projects\\inis-shop\\inis-shop-web-static"
+  ],
+  "paths": {
+    "ROOT": "D:\\My Projects\\inis-shop\\inis-shop-web-static",
+    "SRC": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\src",
+    "DIST": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\dist",
+    "ASSETS": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\dist",
+    "PLUGINS": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\plugins",
+    "TEMP": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\tmp",
+    "ARTIFACTS": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\artifacts",
+    "PUBLIC": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\public",
+    "NODE_MODULES": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\node_modules",
+    "EXCLUDE_MODULES": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\node_modules",
+    "PACKAGE": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\package.json",
+    "HTML_TEMPLATE": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\dist\\index.html",
+    "STATIC_DATA": "D:\\My Projects\\inis-shop\\inis-shop-web-static\\dist\\staticData"
+  },
+  "siteRoot": "/",
+  "basePath": "",
+  "publicPath": "/",
+  "assetsPath": "",
+  "extractCssChunks": false,
+  "inlineCss": false,
+  "babelExcludes": [],
+  "devServer": {
+    "host": "localhost",
+    "port": 3000
+  },
+  "terser": {
+    "terserOptions": {
+      "mangle": {},
+      "parse": {},
+      "compress": {},
+      "output": {}
+    }
+  }
+}
