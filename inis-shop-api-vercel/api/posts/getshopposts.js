@@ -1,8 +1,9 @@
 import checkToken from '../../utils/check-token'
 import dbConnect from '../../utils/mongodb'
 import Post from '../../models/Post'
+import allowCors from '../../utils/allow-cors';
 
-export default async function handler(req, res) {
+const handler = async (req, res) => {
   
     if (checkToken(req,res))
     {
@@ -28,8 +29,7 @@ export default async function handler(req, res) {
 
                     await dbConnect()
                     const posts = await Post.find({shopId: shop_id}).sort({postTimeStamp : -1}).skip(after).limit(page_size).exec()
-                   
-                    res.setHeader('Access-Control-Allow-Origin', '*')
+               
                     res.status(200).send({status:'OK' , count: posts.length, end_cursor: (posts.length === page_size) ? after + posts.length : null ,posts: posts})
                 }
                 catch(err)
@@ -44,3 +44,4 @@ export default async function handler(req, res) {
     }
 }
   
+module.exports = allowCors(handler)
