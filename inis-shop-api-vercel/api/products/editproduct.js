@@ -2,6 +2,7 @@ import checkToken from "../../utils/check-token";
 import dbConnect from "../../utils/mongodb";
 import Product from "../../models/Product";
 import ValidateProduct from "../../utils/validate-product";
+import mongoose from 'mongoose';
 
 export default async function handler(req, res) {
   if (checkToken(req, res)) {
