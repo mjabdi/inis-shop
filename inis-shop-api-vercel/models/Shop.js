@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Shop = new mongoose.Schema({
+const ShopSchema = new mongoose.Schema({
  
     timeStamp: {
         type: Date,

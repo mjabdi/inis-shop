@@ -1,9 +1,6 @@
 import checkToken from "../../utils/check-token";
 import dbConnect from "../../utils/mongodb";
-import Category from "../../models/Category";
 import Product from "../../models/Product";
-import Shop from "../../models/Shop";
-import Post from "../../models/Post";
 import ValidateProduct from "../../utils/validate-product";
 
 export default async function handler(req, res) {
