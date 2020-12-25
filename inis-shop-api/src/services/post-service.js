@@ -23,6 +23,7 @@ router.get('/getshopposts', async function(req, res, next) {
     try{
         const posts = await Post.find({shopId: shop_id}).sort({postTimeStamp : -1}).skip(after).limit(page_size).exec();
         res.status(200).send({status:'OK' , count: posts.length, end_cursor: (posts.length === page_size) ? after + posts.length : null ,posts: posts});
+        console.log(`Success Result : ${posts} `);
 
     }catch(err)
     {
