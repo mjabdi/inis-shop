@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Category = mongoose.model('category', new mongoose.Schema({
+const CategorySchema = new mongoose.Schema({
   
     timeStamp: {
         type: Date,
@@ -22,7 +22,7 @@ const Category = mongoose.model('category', new mongoose.Schema({
         required: false
     },
 
-}));
+})
 
 
-exports.Category = Category; 
+export default mongoose.models.Category || mongoose.model('Category', CategorySchema)

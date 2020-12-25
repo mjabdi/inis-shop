@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const PostImage = mongoose.model('PostImage', new mongoose.Schema({
+const PostImageSchema = new mongoose.Schema({
   
     timeStamp: {
         type: Date,
@@ -32,7 +32,7 @@ const PostImage = mongoose.model('PostImage', new mongoose.Schema({
         default: false
     }
 
-}));
+})
 
 
-exports.PostImage = PostImage; 
+export default mongoose.models.PostImage || mongoose.model('PostImage', PostImageSchema)

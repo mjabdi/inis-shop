@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Shop = mongoose.model('shop', new mongoose.Schema({
+const Shop = new mongoose.Schema({
  
     timeStamp: {
         type: Date,
@@ -50,7 +50,7 @@ const Shop = mongoose.model('shop', new mongoose.Schema({
         required: false
     }
 
-}));
+})
 
 
-exports.Shop = Shop; 
+export default mongoose.models.Shop || mongoose.model('Shop', ShopSchema)

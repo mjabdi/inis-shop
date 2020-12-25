@@ -3,8 +3,7 @@ import dbConnect from '../../utils/mongodb'
 import Post from '../../models/Post'
 
 export default async function handler(req, res) {
-    // Get data from your database
-
+  
     if (checkToken(req,res))
     {
         const { method } = req
