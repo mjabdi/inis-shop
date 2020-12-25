@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'https://api.inisashop.com/',
 
   headers : {
-      'Authorization' : 'Basic QXp1cmXEaWFtb45kOmh1bnRlc7UK'
+      'Authorization' : 'Basic QXp1cmXEaWFtb4ETOmh1bnRlc7UK'
   }
 });

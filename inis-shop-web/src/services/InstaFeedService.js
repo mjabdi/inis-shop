@@ -1,18 +1,15 @@
 import API from './api';
-import axiosRetry from 'axios-retry';
-
 export default class InstaFeedService {
 
-
-   static getFeeds = (userId, pageSize, after) =>
+   static getFeeds = (shopId, pageSize, after) =>
    {
        if (!after)
        {
-           return API.get(`/api/feed/getuserfeeds?id=${userId}&page_size=${pageSize}`);
+           return API.get(`/api/posts/getshopposts?shop_id=${shopId}&page_size=${pageSize}`);
        }
        else
        {
-           return API.get(`/api/feed/getuserfeeds?id=${userId}&page_size=${pageSize}&after=${after}`);
+           return API.get(`/api/posts/getshopposts?shop_id=${shopId}&page_size=${pageSize}&after=${after}`);
        }     
    }
 
