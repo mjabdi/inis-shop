@@ -1,6 +1,6 @@
 import checkToken from '../../utils/check-token'
-import dbConnect from '../../../utils/dbConnect'
-import Post from '../../../models/Post'
+import dbConnect from '../../utils/mongodb'
+import Post from '../../models/Post'
 
 export default async function handler(req, res) {
     // Get data from your database
