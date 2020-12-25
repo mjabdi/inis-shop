@@ -93,10 +93,11 @@ app.use('/api', apiSecurity() , apiRouter);
 //  });
 
 
- app.use('/', express.static(path.join(__dirname, "..", "public")));
+//  app.use('/', express.static(path.join(__dirname, "..", "public")));
 
  app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+    res.status(404).send('invalid endpoint');
+    res.end();
  });
 
 // catch 404 and forward to error handler
