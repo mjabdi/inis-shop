@@ -3,6 +3,7 @@ import Post from '../models/Post'
 import Product from '../models/Product'
 import Category from '../models/Category'
 import Shop from '../models/Shop'
+import mongoose from 'mongoose'
 
 export default async function ValidateProduct(body, editMode)
 {
