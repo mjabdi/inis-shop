@@ -2,6 +2,7 @@ import dbConnect from './mongodb'
 import Post from '../models/Post'
 import Product from '../models/Product'
 import Category from '../models/Category'
+import Shop from '../models/Shop'
 
 export default async function ValidateProduct(body, editMode)
 {
