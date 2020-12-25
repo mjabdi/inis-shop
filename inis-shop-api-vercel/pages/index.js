@@ -2,6 +2,6 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-   'Invalid Endpoint!'
+   '404 - invalid endpoint'
   )
 }

@@ -9,6 +9,7 @@
   "dependencies": {
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
+    "mongoose": "^5.11.8",
     "next": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
