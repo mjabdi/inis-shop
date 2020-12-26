@@ -1,8 +1,9 @@
 import checkToken from '../../utils/check-token'
 import dbConnect from '../../utils/mongodb'
 import Category from '../../models/Category'
+import allowCors from '../../utils/allow-cors'
 
-export default async function handler(req, res) {
+const handler = (req, res) => {
 
     if (checkToken(req,res))
     {
@@ -52,3 +53,4 @@ export default async function handler(req, res) {
     }
 }
 
+module.exports = allowCors(handler)

@@ -3,8 +3,9 @@ import dbConnect from "../../utils/mongodb";
 import Product from "../../models/Product";
 import ValidateProduct from "../../utils/validate-product";
 import mongoose from 'mongoose';
+import allowCors from '../../utils/allow-cors'
 
-export default async function handler(req, res) {
+const handler = (req, res) => {
   if (checkToken(req, res)) {
     const { method } = req;
 
@@ -61,3 +62,5 @@ export default async function handler(req, res) {
     }
   }
 }
+
+module.exports = allowCors(handler)
