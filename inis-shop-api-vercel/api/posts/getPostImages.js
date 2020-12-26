@@ -20,7 +20,6 @@ const handler = async (req, res) => {
                         res.status(400).send({status:'FAILED' , error: 'post_id is missing'});
                         return;
                     }
-
                     await dbConnect()
                     const postImages = await PostImage.find({id: post_id}).sort({timeStamp : -1}).exec()
                
