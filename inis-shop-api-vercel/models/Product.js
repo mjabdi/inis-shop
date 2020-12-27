@@ -77,6 +77,16 @@ const ProductSchema = new mongoose.Schema({
         required: false
     },
 
+    imageUrl: {
+        type: String,
+        required: true
+    },
+
+    imageUrlSmall: {
+        type: String,
+        required: true
+    },
+
     deleted: {
       type: Boolean,
       required: false

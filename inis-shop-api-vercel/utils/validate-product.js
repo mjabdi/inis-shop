@@ -29,6 +29,16 @@ export default async function ValidateProduct(body, editMode)
         throw new Error('title is missing')
     }
 
+    if (!body.imageUrl)
+    {
+        throw new Error('imageUrl is missing')
+    }
+
+    if (!body.ImageUrlSmall)
+    {
+        throw new Error('ImageUrlSmall is missing')
+    }
+
     const post = await Post.findOne({id: body.postId, shopId: body.shopId})
     if (!post)
     {
@@ -46,6 +56,8 @@ export default async function ValidateProduct(body, editMode)
     {
         throw new Error('categoryId is missing')
     }
+
+    
 
     const cat = await Category.findOne({_id : mongoose.Types.ObjectId(body.categoryId)})
 
