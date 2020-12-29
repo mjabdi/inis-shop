@@ -5,7 +5,7 @@ import ValidateProduct from "../../utils/validate-product";
 import mongoose from 'mongoose';
 import allowCors from '../../utils/allow-cors'
 
-const handler = (req, res) => {
+const handler = async (req, res) => {
   if (checkToken(req, res)) {
     const { method } = req;
 

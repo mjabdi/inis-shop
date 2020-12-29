@@ -3,7 +3,7 @@ import dbConnect from '../../utils/mongodb'
 import Category from '../../models/Category'
 import allowCors from '../../utils/allow-cors'
 
-const handler = (req, res) => {
+const handler = async (req, res) => {
 
     if (checkToken(req,res))
     {

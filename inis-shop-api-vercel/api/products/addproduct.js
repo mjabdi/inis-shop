@@ -16,6 +16,7 @@ const handler = async (req, res) => {
             await ValidateProduct(req.body);
           } catch (err) {
             res.status(400).send({ status: "FAILED", error: err.message });
+            console.error(err);
             return;
           }
 
