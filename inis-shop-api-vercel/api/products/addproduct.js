@@ -30,7 +30,7 @@ const handler = async (req, res) => {
           const result = await product.save();
           res.status(201).send({ status: "OK", result: result });
         } catch (err) {
-          res.status(500).json({ status: "FAILED", error: err.message });
+          res.status(200).json({ status: "FAILED", error: err.message });
         }
         break;
       default:
