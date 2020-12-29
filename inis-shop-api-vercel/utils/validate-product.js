@@ -52,10 +52,10 @@ export default async function ValidateProduct(body, editMode)
 
     body.price = parseInt(body.price)
 
-    if (!body.categoryId)
-    {
-        throw new Error('categoryId is missing')
-    }
+    // if (!body.categoryId)
+    // {
+    //     throw new Error('categoryId is missing')
+    // }
 
     
 
