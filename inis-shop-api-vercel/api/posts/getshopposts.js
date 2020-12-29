@@ -1,7 +1,7 @@
 import checkToken from '../../utils/check-token'
 import dbConnect from '../../utils/mongodb'
 import Post from '../../models/Post'
-import allowCors from '../../utils/allow-cors';
+import allowCors from '../../utils/allow-cors'
 
 const handler = async (req, res) => {
   
