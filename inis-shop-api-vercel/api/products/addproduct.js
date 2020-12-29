@@ -1,4 +1,5 @@
-import checkToken from "../../utils/check-token";
+
+import checkToken from '../../utils/check-token'
 import dbConnect from "../../utils/mongodb";
 import Product from "../../models/Product";
 import ValidateProduct from "../../utils/validate-product";
