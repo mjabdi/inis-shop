@@ -44,7 +44,7 @@ const ProductSchema = new mongoose.Schema({
 
     priceAfterDiscount: {
         type: Number,
-        default: 0
+        default: null
     }, 
     
     inStock: {
@@ -58,7 +58,7 @@ const ProductSchema = new mongoose.Schema({
         default: false
     },
 
-    continueAfterSoldout:{
+    continueSelling:{
         type: Boolean,
         required: true,
         default: false
