@@ -59,14 +59,14 @@ export default async function ValidateProduct(body, editMode)
 
     
 
-    const cat = await Category.findOne({_id : mongoose.Types.ObjectId(body.categoryId)})
+    // const cat = await Category.findOne({_id : mongoose.Types.ObjectId(body.categoryId)})
 
-    if (!cat)
-    {
-        throw new Error('categoryId is invalid')
-    }
+    // if (!cat)
+    // {
+    //     throw new Error('categoryId is invalid')
+    // }
 
-    body.categoryId = mongoose.Types.ObjectId(body.categoryId)
+    // body.categoryId = mongoose.Types.ObjectId(body.categoryId)
 
     if (!body.variant)
     {
