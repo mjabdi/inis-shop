@@ -32,11 +32,6 @@ const ProductSchema = new mongoose.Schema({
         required: false
     },
 
-    spec: {
-        type: String, /// json string e.g : {"color" : "red" , "size" : "small", ... }
-        required: false
-    },
-
     keywords: {
         type: String, /// comma seperated keywords e.g: "digital, ipad, phone, ...."
         required: false
@@ -47,7 +42,7 @@ const ProductSchema = new mongoose.Schema({
         required: true
     },
 
-    discount: {
+    priceAfterDiscount: {
         type: Number,
         default: 0
     }, 
@@ -57,9 +52,16 @@ const ProductSchema = new mongoose.Schema({
         default: 0
     },
 
-    categoryId: {
-        type: mongoose.Types.ObjectId,
-        required: true
+    trackQuantity:{
+        type: Boolean,
+        required: true,
+        default: false
+    },
+
+    continueAfterSoldout:{
+        type: Boolean,
+        required: true,
+        default: false
     },
 
     lastUpdate: {
@@ -67,7 +69,7 @@ const ProductSchema = new mongoose.Schema({
         default: new Date()
     },
 
-    code: {
+    SKUCode: {
         type: String,
         required: false
     },
