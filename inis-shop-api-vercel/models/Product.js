@@ -64,9 +64,9 @@ const ProductSchema = new mongoose.Schema({
         default: false
     },
 
-    lastUpdate: {
-        type: Date,
-        default: new Date()
+    deliveryTime:{
+        type: Boolean,
+        default: 0
     },
 
     SKUCode: {
@@ -87,6 +87,11 @@ const ProductSchema = new mongoose.Schema({
     imageUrlSmall: {
         type: String,
         required: true
+    },
+
+    lastUpdate: {
+        type: Date,
+        default: new Date()
     },
 
     deleted: {
