@@ -65,8 +65,8 @@ const ProductSchema = new mongoose.Schema({
     },
 
     deliveryTime:{
-        type: Boolean,
-        default: 0
+        type: Number,
+        default: -1
     },
 
     SKUCode: {
