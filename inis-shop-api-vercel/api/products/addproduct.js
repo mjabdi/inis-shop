@@ -1,8 +1,21 @@
-import checkToken from '../../utils/check-token'
+// import checkToken from '../../utils/check-token'
 import dbConnect from '../../utils/mongodb'
 import Product from '../../models/Product'
 import ValidateProduct from '../../utils/validate-product'
 import allowCors from '../../utils/allow-cors'
+
+
+function checkToken(req, res) {
+
+    const token = process.env.AuthToken; 
+    if (req.headers.authorization !== `Basic ${token}`) {
+        res.status(401).send('Access Denied!');
+        return false;
+      }
+
+
+      return true;
+}
 
 const handler = (req, res) => {
  
