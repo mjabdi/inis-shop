@@ -34,7 +34,7 @@ export default async function ValidateProduct(body, editMode)
         throw new Error('imageUrl is missing')
     }
 
-    if (!body.ImageUrlSmall)
+    if (!body.imageUrlSmall)
     {
         throw new Error('ImageUrlSmall is missing')
     }
