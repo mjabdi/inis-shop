@@ -5,9 +5,11 @@ import allowCors from '../../utils/allow-cors'
 import CreateRandomVerificationCode from '../../utils/verfication-code'
 import redis from '../../utils/redis'
 
-const TIMEOUT = 2 * 60 //seconds
+
 
 const handler = async (req, res) => {
+
+   const TIMEOUT = 2 * 60 //seconds
  
     if (checkToken(req, res)) {
     const { method } = req;

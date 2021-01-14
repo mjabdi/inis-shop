@@ -4,9 +4,8 @@ import User from "../../models/User";
 import allowCors from "../../utils/allow-cors";
 import redis from "../../utils/redis";
 
-const TIMEOUT = 2 * 60; //seconds
-
 const handler = async (req, res) => {
+
   if (checkToken(req, res)) {
     const { method } = req;
 
