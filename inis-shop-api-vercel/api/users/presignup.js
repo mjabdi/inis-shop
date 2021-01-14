@@ -31,10 +31,10 @@ const handler = async (req, res) => {
 
           console.log(verficationCode)
 
-          const result = redis.SETEX(verficationCode,TIMEOUT,userId)
-          console.log(result)
-          
-          res.status(200).send({status:'OK', code: verficationCode})
+          const value =  {forename, surname, userId, password}
+          const result = redis.SETEX(verficationCode,TIMEOUT,JSON.stringify(value))
+
+          res.status(200).send({status:'OK'})
 
         } catch (err) {
           res.status(200).json({ status: "FAILED", error: err.message });
