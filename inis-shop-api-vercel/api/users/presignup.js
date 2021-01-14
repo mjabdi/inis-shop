@@ -31,7 +31,7 @@ const handler = async (req, res) => {
 
           console.log(verficationCode)
 
-          const value =  {forename, surname, password, verficationCode}
+          const value =  {forename, surname, password, userId, verficationCode}
           redis.SETEX(userId, TIMEOUT, JSON.stringify(value))
 
           res.status(200).send({status:'OK'})
