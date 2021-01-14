@@ -2,8 +2,6 @@ import checkToken from "../../utils/check-token";
 import dbConnect from "../../utils/mongodb";
 import User from "../../models/User";
 import allowCors from "../../utils/allow-cors";
-import CreateRandomVerificationCode from "../../utils/verfication-code";
-import uuid from "uuid-random";
 import redis from "../../utils/redis";
 
 const TIMEOUT = 2 * 60; //seconds
