@@ -33,7 +33,7 @@ const handler = async (req, res) => {
               res.status(200).send({
                 status: "FAILED",
                 error:
-                  "Verification Code has been expired! Please click the RESEND NEW CODE button to recieve the new code.",
+                  "expired!" + "کد تائید شما منقضی شده است، لطفا ارسال کد جدید را کلیک نمائید"
               });
               return;
             }
@@ -43,7 +43,7 @@ const handler = async (req, res) => {
             if (record.verficationCode !== verficationCode) {
               res.status(200).send({
                 status: "FAILED",
-                error: "Invalid Verification Code! Please try again.",
+                error: "کد تائید نادرست می باشد، لطفا مجددا تلاش نمائید.",
               });
               return;
             }
