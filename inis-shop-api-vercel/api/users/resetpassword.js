@@ -13,44 +13,45 @@ const handler = async (req, res) => {
       case "POST":
         try {
           await dbConnect();
-          const { userId, verficationCode, password } = req.body;
-          const user = await User.findOne({ userId: userId });
-          if (!user) {
-            res
-              .status(200)
-              .send({
-                status: "FAILED",
-                error: "این شماره تلفن در سیستم ثبت نشده است",
-              });
-            return;
-          }
+          res.status(200).send({ status: "OK" });
+          // const { userId, verficationCode, password } = req.body;
+          // const user = await User.findOne({ userId: userId });
+          // if (!user) {
+          //   res
+          //     .status(200)
+          //     .send({
+          //       status: "FAILED",
+          //       error: "این شماره تلفن در سیستم ثبت نشده است",
+          //     });
+          //   return;
+          // }
 
-          const record = redis.get(userId, async (err, record) => {
-            if (!record) {
-              res.status(200).send({
-                status: "FAILED",
-                error:
-                  "expired!" +
-                  "کد تائید شما منقضی شده است، لطفا ارسال کد جدید را کلیک نمائید",
-              });
-              return;
-            }
-            record = JSON.parse(record);
+          // const record = redis.get(userId, async (err, record) => {
+          //   if (!record) {
+          //     res.status(200).send({
+          //       status: "FAILED",
+          //       error:
+          //         "expired!" +
+          //         "کد تائید شما منقضی شده است، لطفا ارسال کد جدید را کلیک نمائید",
+          //     });
+          //     return;
+          //   }
+          //   record = JSON.parse(record);
 
-            if (record.verficationCode !== verficationCode) {
-              res.status(200).send({
-                status: "FAILED",
-                error: "کد تائید نادرست می باشد، لطفا مجددا تلاش نمائید.",
-              });
-              return;
-            }
+          //   if (record.verficationCode !== verficationCode) {
+          //     res.status(200).send({
+          //       status: "FAILED",
+          //       error: "کد تائید نادرست می باشد، لطفا مجددا تلاش نمائید.",
+          //     });
+          //     return;
+          //   }
 
-            user.password = password;
+          //   user.password = password;
 
-            await user.save();
+          //   await user.save();
 
-            res.status(200).send({ status: "OK" });
-          });
+          //   res.status(200).send({ status: "OK" });
+          // });
         } catch (err) {
           res.status(200).json({ status: "FAILED", error: err.message });
         }
