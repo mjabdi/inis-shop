@@ -4,6 +4,9 @@ import User from '../../models/User'
 import allowCors from '../../utils/allow-cors'
 import CreateRandomVerificationCode from '../../utils/verfication-code'
 import uuid from 'uuid-random'
+import redis from '../../utils/redis'
+
+const TIMEOUT = 2 * 60 //seconds
 
 const handler = async (req, res) => {
  
@@ -27,6 +30,9 @@ const handler = async (req, res) => {
           const verficationCode = CreateRandomVerificationCode()
 
           console.log(verficationCode)
+
+          const result = redis.SETEX(verficationCode,TIMEOUT,userId)
+          console.log(result)
           
           res.status(200).send({status:'OK', code: verficationCode})
 
