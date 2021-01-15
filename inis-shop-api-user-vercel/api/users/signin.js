@@ -42,7 +42,7 @@ const handler = async (req, res) => {
               return  
           }
   
-          const authToken = uuid()
+          const authToken = user.authToken ? user.authToken : uuid()
   
           await User.updateOne({_id: user._id}, {authToken: authToken, lastLoginTimeStamp: new Date()})
   
