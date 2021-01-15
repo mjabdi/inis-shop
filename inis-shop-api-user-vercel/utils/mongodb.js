@@ -10,6 +10,7 @@ async function dbConnect() {
 
   /* connecting to our database */
   const db = await mongoose.connect(process.env.MongodbUrl, {
+    useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
