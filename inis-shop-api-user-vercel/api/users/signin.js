@@ -4,6 +4,7 @@ import User from "../../models/User";
 import allowCors from "../../utils/allow-cors";
 import redis from "../../utils/redis";
 import uuid from 'uuid-random';
+import TokenExpired from '../../utils/TokenExpired'
 
 const handler = async (req, res) => {
   if (checkToken(req, res)) {
@@ -41,11 +42,21 @@ const handler = async (req, res) => {
               res.status(200).send({status:'FAILED', error: 'نام کاربری یا رمز عبور اشتباه می باشد'})
               return  
           }
-  
-          const authToken = user.authToken ? user.authToken : uuid()
-  
-          await User.updateOne({_id: user._id}, {authToken: authToken, lastLoginTimeStamp: new Date()})
-  
+
+          let authToken = null
+          let authTokenTimeStamp = null
+          if (user.authToken && !TokenExpired(user.authTokenTimeStamp))
+          {
+            authToken = user.authToken
+            authTokenTimeStamp = user.authTokenTimeStamp
+          }else
+          {
+              authToken = uuid()
+              authTokenTimeStamp = new Date()
+          }
+          
+          await User.updateOne({_id: user._id}, {authToken: authToken, authTokenTimeStamp: authTokenTimeStamp, lastLoginTimeStamp: new Date()})
+
           res.status(200).send({status: 'OK', token: authToken }) 
   
    
@@ -59,5 +70,7 @@ const handler = async (req, res) => {
     }
   }
 };
+
+
 
 module.exports = allowCors(handler);

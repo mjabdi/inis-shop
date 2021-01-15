@@ -4,6 +4,7 @@ import User from "../../models/User";
 import allowCors from "../../utils/allow-cors";
 import redis from "../../utils/redis";
 import uuid from 'uuid-random';
+import TokenExpired from "../../utils/TokenExpired";
 
 const handler = async (req, res) => {
   if (checkToken(req, res)) {
@@ -15,7 +16,7 @@ const handler = async (req, res) => {
           await dbConnect();
           const {token} = req.body
           const user = await User.findOne({authToken: token})
-          if (!user)
+          if (!user || TokenExpired(user.authTokenTimeStamp))
           {
               res.status(200).send({status:'FAILED', error: 'INVALID-TOKEN'}) 
               return

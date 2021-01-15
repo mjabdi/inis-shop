@@ -53,6 +53,11 @@ const UserSchema = new mongoose.Schema({
     authToken: {
         type: String,
         required: false
+    },
+
+    authTokenTimeStamp: {
+        type: Date,
+        default: null
     }
 
 })
