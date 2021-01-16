@@ -33,7 +33,7 @@ const handler = async (req, res) => {
               return     
           }
 
-          const userShops = await UserShop.find({userId: userId}).sort({timeStamp:-1}).exec();
+          const userShops = await UserShop.find({userId: user.userId}).sort({timeStamp:-1}).exec();
           if (!userShops || userShops.length === 0)
           {
             res.status(200).send({status:'OK', shops: []});
