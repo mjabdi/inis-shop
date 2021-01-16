@@ -21,7 +21,6 @@ const ShopSchema = new mongoose.Schema({
 
     id: {
         type: String,
-        required: true,
         default: null
     },
 
