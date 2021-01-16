@@ -16,7 +16,6 @@ const ShopSchema = new mongoose.Schema({
     persianName: {
         type: String,
         required: true,
-        unique: true
     },
 
     id: {
