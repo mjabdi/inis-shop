@@ -35,7 +35,7 @@ const handler = async (req, res) => {
               return     
           }
 
-          const userShops = await UserShop.find({userId: userId, isOwner: true}).sort({timeStamp:-1}).exec();
+          const userShops = await UserShop.find({userId: user.userId, isOwner: true}).sort({timeStamp:-1}).exec();
           if (userShops && userShops.length >= MAX_ALLOWED_SHOPS)
           {
             res.status(200).send({status:'FAILED', error: "سقف تعداد فروشگاه های مجاز شما به اتمام رسیده است"});
