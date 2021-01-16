@@ -43,7 +43,9 @@ const handler = async (req, res) => {
           const shops = []
           for (var i=0; i < userShops.length; i++)
           {
-               shops.push({... await Shop.findOne({_id: userShops[i].shopId}) , isOwner: userShops[i].isOwner , accessList: userShops[i].accessList })
+               const _shop = await Shop.findOne({_id: userShops[i].shopId})
+               if (_shop)
+                shops.push({... _shop._doc , isOwner: userShops[i].isOwner , accessList: userShops[i].accessList })
           }
 
           res.status(200).send({status:'OK', shops: shops});
