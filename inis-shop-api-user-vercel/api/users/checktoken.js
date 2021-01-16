@@ -2,8 +2,6 @@ import checkToken from "../../utils/check-token";
 import dbConnect from "../../utils/mongodb";
 import User from "../../models/User";
 import allowCors from "../../utils/allow-cors";
-import redis from "../../utils/redis";
-import uuid from 'uuid-random';
 import TokenExpired from "../../utils/TokenExpired";
 
 const handler = async (req, res) => {

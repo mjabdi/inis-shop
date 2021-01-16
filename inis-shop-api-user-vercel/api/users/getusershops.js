@@ -1,9 +1,9 @@
 import checkToken from "../../utils/check-token";
 import dbConnect from "../../utils/mongodb";
 import User from "../../models/User";
+import Shop from "../../models/Shop";
+import UserShop from "../../models/UserShop";
 import allowCors from "../../utils/allow-cors";
-import uuid from 'uuid-random';
-import TokenExpired from '../../utils/TokenExpired'
 
 const handler = async (req, res) => {
   if (checkToken(req, res)) {
@@ -13,11 +13,11 @@ const handler = async (req, res) => {
       case "POST":
         try {
           await dbConnect();
-          const {userId, password} = req.body
-          const user = await User.findOne({userId: userId})
+          const {authToken} = req.body
+          const user = await User.findOne({authToken: authToken})
           if (!user)
           {
-              res.status(200).send({status:'FAILED', error: 'نام کاربری یا رمز عبور اشتباه می باشد'})
+              res.status(200).send({status:'FAILED', error: 'مدت زمان ورود شما منقضی شده است، لطفا دوباره وارد شوید'})
               return  
           }
   
@@ -32,33 +32,22 @@ const handler = async (req, res) => {
               res.status(200).send({status:'FAILED', error: 'اکانت شما به دلایل امنیتی مسدود شده است، لطفا با مدیر سیستم تماس بگیرید'})
               return     
           }
-  
-         
-  
-          const isMatch = await user.comparePassword(password)
-          if (!isMatch)
+
+          const userShops = await UserShop.find({userId: userId}).sort({timeStamp:-1}).exec();
+          if (!userShops || userShops.length === 0)
           {
-              res.status(200).send({status:'FAILED', error: 'نام کاربری یا رمز عبور اشتباه می باشد'})
-              return  
+            res.status(200).send({status:'OK', shops: []});
+            return
           }
 
-          let authToken = null
-          let authTokenTimeStamp = null
-          if (user.authToken && !TokenExpired(user.authTokenTimeStamp))
+          const shops = []
+          for (var i=0; i < userShops.length; i++)
           {
-            authToken = user.authToken
-            authTokenTimeStamp = user.authTokenTimeStamp
-          }else
-          {
-              authToken = uuid()
-              authTokenTimeStamp = new Date()
+               shops.push({... await Shop.findOne({_id: userShops[i].shopId}) , isOwner: userShops[i].isOwner , accessList: userShops[i].accessList })
           }
-          
-          await User.updateOne({_id: user._id}, {authToken: authToken, authTokenTimeStamp: authTokenTimeStamp, lastLoginTimeStamp: new Date()})
 
-          res.status(200).send({status: 'OK', token: authToken }) 
-  
-   
+          res.status(200).send({status:'OK', shops: shops});
+
         } catch (err) {
           res.status(200).json({ status: "FAILED", error: err.message });
         }

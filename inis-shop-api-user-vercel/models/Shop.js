@@ -22,7 +22,7 @@ const ShopSchema = new mongoose.Schema({
     id: {
         type: String,
         required: true,
-        unique: true
+        default: null
     },
 
     description: {
