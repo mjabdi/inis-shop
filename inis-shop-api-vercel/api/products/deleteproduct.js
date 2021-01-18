@@ -39,7 +39,7 @@ const handler = async (req, res) => {
             { deleted: true }
           );
 
-          const post = await Post.findOne({id: product.postId});
+          const post = await Post.findOne({id: found.postId});
           if (post)
           {
             post.productIds = post.productIds.filter(pid => pid !== req.query.product_id)
