@@ -31,7 +31,7 @@ const handler = async (req, res) => {
             ...req.body,
           });
           const result = await product.save();
-          const post = await Post.findOne({_id: objectId(product.postId)});
+          const post = await Post.findOne({id: product.postId});
           if (post)
           {
             post.productIds = [...post.productIds, product._id.toString()]
