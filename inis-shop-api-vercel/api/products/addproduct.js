@@ -5,7 +5,7 @@ import Post from '../../models/Post'
 import ValidateProduct from '../../utils/validate-product'
 import allowCors from '../../utils/allow-cors'
 import mongoose from 'mongoose'
-const objectId = mongoose.objectId
+const objectId =  mongoose.Types.ObjectId
 
 const handler = async (req, res) => {
  
@@ -31,7 +31,7 @@ const handler = async (req, res) => {
             ...req.body,
           });
           const result = await product.save();
-          const post = await Post.findOne({_id: objectId(product.postId)});
+          const post = await Post.findOne({_id: new objectId(product.postId)});
           if (post)
           {
             post.productIds = [...post.productIds, product._id.toString()]
