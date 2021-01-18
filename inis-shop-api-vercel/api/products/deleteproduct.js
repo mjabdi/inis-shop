@@ -37,6 +37,14 @@ const handler = async (req, res) => {
             { _id: product_id },
             { deleted: true }
           );
+
+          const post = await Post.findOne({id: product.postId});
+          if (post)
+          {
+            post.productIds = post.productIds.filter(pid => pid !== req.query.product_id)
+            await post.save()
+          }
+
           res.status(200).send({ status: "OK", result: result });
         } catch (err) {
           res.status(500).json({ status: "FAILED", error: err.message });
