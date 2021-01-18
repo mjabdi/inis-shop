@@ -1,6 +1,7 @@
 import checkToken from "../../utils/check-token";
 import dbConnect from "../../utils/mongodb";
 import Product from "../../models/Product";
+import Post from '../../models/Post'
 import mongoose from 'mongoose';
 import allowCors from '../../utils/allow-cors'
 

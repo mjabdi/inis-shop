@@ -4,8 +4,6 @@ import Product from '../../models/Product'
 import Post from '../../models/Post'
 import ValidateProduct from '../../utils/validate-product'
 import allowCors from '../../utils/allow-cors'
-import mongoose from 'mongoose'
-const objectId =  mongoose.Types.ObjectId
 
 const handler = async (req, res) => {
  
