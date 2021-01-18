@@ -45,6 +45,11 @@ const PostSchema = new mongoose.Schema({
     likes: {
         type: Number,
         default: 0
+    },
+
+    productIds: {
+        type: Array,
+        required: false
     }
 
 })

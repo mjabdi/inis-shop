@@ -1,6 +1,7 @@
 import checkToken from '../../utils/check-token'
 import dbConnect from '../../utils/mongodb'
 import Product from '../../models/Product'
+import Post from '../../models/Post'
 import ValidateProduct from '../../utils/validate-product'
 import allowCors from '../../utils/allow-cors'
 
@@ -28,6 +29,12 @@ const handler = async (req, res) => {
             ...req.body,
           });
           const result = await product.save();
+          const post = await Post.findOne({_id:product.postId});
+          if (post)
+          {
+            post.productIds = [...post.productIds, product._id]
+            await post.save()
+          }
           res.status(201).send({ status: "OK", result: result });
         } catch (err) {
           res.status(200).json({ status: "FAILED", error: err.message });
