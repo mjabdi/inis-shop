@@ -60,7 +60,7 @@ const handler = async (req, res) => {
                   shopId: shopId,
                   orderId: orderId,
                   productId: orderProducts[i].productId,
-                  variant: orderProducts[i].variant,
+                  variant: JSON.stringify(orderProducts[i].variant),
                   price: orderProducts[i].price,
                   count: orderProducts[i].count
               })
