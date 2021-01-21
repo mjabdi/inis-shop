@@ -133,13 +133,7 @@ async function UpdateShop(shopId, after)
         {
             let post = {};
             post.id = node.id;
-            post.images = [ 
-                {
-                    dimensions : node.dimensions,
-                    display_url : node.display_url,
-                    small_image_url : node.display_resources[0].src
-                }
-            ]
+            post.shortCode = node.shortcode;
             post.caption = node.edge_media_to_caption.edges[0] ?  node.edge_media_to_caption.edges[0].node.text : '';
             post.likes = node.edge_media_preview_like.count;
             post.timeStamp = new Date(node.taken_at_timestamp * 1000);
@@ -151,13 +145,12 @@ async function UpdateShop(shopId, after)
                     id: post.id,
                     type: node.__typename,
                     caption: post.caption,
-                    imageUrl: post.images[0].display_url,
-                    imageUrlSmall : post.images[0].small_image_url,
+                    shortCode: post.shortCode,
                     likes: post.likes,
                     postTimeStamp : post.timeStamp,
                 }
             );
-                
+               
             const postFound = await Post.findOne({id: post.id, shopId: shopId});
              
             if (!postFound)
@@ -173,19 +166,16 @@ async function UpdateShop(shopId, after)
         {
             let post = {};
             post.id = node.id;
+            post.shortCode = node.shortcode;
             post.caption = node.edge_media_to_caption.edges[0] ?  node.edge_media_to_caption.edges[0].node.text : '';
             post.likes = node.edge_media_preview_like.count;
             post.timeStamp = new Date(node.taken_at_timestamp * 1000);
           
             
-            post.images = [];
+            post.children = [];
 
             node.edge_sidecar_to_children.edges.forEach(child => {
-                let photo = {};
-                photo.dimensions = child.node.dimensions;
-                photo.display_url = child.node.display_url;
-                photo.small_image_url = child.node.display_resources[0].src;
-                post.images.push(photo);
+                post.children.push({type: child.node.__typename, shortCode: child.node.shortcode});
             });
 
             const postDoc = new Post(
@@ -195,29 +185,28 @@ async function UpdateShop(shopId, after)
                    id: post.id,
                    type: node.__typename,
                    caption: post.caption,
-                   imageUrl: post.images[0].display_url,
-                   imageUrlSmall: post.images[0].small_image_url,
+                   shortCode: post.shortCode,
                    likes: post.likes,
                    postTimeStamp: post.timeStamp,
                }
            );
 
-           const postFound = await Post.findOne({id: post.id, shopId: shopId});
+          const postFound = await Post.findOne({id: post.id, shopId: shopId});
            if (!postFound)
            {
-              await postDoc.save();
-              post.images.forEach( async (image, index) => {
-               const postImage = new PostImage(
-                   {
-                       timeStamp: new Date(),
-                       shopId: shopId,
-                       id: post.id,
-                       imageUrl: image.display_url,
-                       imageUrlSmall: image.small_image_url,
-                       isMainImage: (index === 0)
-                   }
-               );
-               await postImage.save();
+               await postDoc.save();
+               post.children.forEach( async (child, index) => {
+                const postImage = new PostImage(
+                    {
+                        timeStamp: new Date(),
+                        shopId: shopId,
+                        id: post.id,
+                        type: child.type,
+                        shortCode: child.shortCode,
+                        isMainImage: (index === 0)
+                    }
+                );
+                await postImage.save();
              });
            }
            else
@@ -275,6 +264,8 @@ async function BrowseShop(shopId, after)
      const edges = allRowsData.user.edge_owner_to_timeline_media.edges;
      const end_cursor =  allRowsData.user.edge_owner_to_timeline_media.page_info.end_cursor;
      const has_next_page = allRowsData.user.edge_owner_to_timeline_media.page_info.has_next_page;
+
+
  
      edges.forEach(async item => {
          const node = item.node;
@@ -282,13 +273,7 @@ async function BrowseShop(shopId, after)
          {
              let post = {};
              post.id = node.id;
-             post.images = [ 
-                 {
-                     dimensions : node.dimensions,
-                     display_url : node.display_url,
-                     small_image_url : node.display_resources[0].src
-                 }
-             ]
+             post.shortCode = node.shortcode;
              post.caption = node.edge_media_to_caption.edges[0] ?  node.edge_media_to_caption.edges[0].node.text : '';
              post.likes = node.edge_media_preview_like.count;
              post.timeStamp = new Date(node.taken_at_timestamp * 1000);
@@ -300,8 +285,7 @@ async function BrowseShop(shopId, after)
                      id: post.id,
                      type: node.__typename,
                      caption: post.caption,
-                     imageUrl: post.images[0].display_url,
-                     imageUrlSmall : post.images[0].small_image_url,
+                     shortCode: post.shortCode,
                      likes: post.likes,
                      postTimeStamp : post.timeStamp,
                  }
@@ -316,19 +300,17 @@ async function BrowseShop(shopId, after)
          {
              let post = {};
              post.id = node.id;
+             post.shortCode = node.shortcode;
              post.caption = node.edge_media_to_caption.edges[0] ?  node.edge_media_to_caption.edges[0].node.text : '';
              post.likes = node.edge_media_preview_like.count;
              post.timeStamp = new Date(node.taken_at_timestamp * 1000);
            
              
-             post.images = [];
+             post.children = [];
  
              node.edge_sidecar_to_children.edges.forEach(child => {
-                 let photo = {};
-                 photo.dimensions = child.node.dimensions;
-                 photo.display_url = child.node.display_url;
-                 photo.small_image_url = child.node.display_resources[0].src;
-                 post.images.push(photo);
+                //  console.log(child)
+                 post.children.push({id: child.node.id, type: child.node.__typename, shortCode: child.node.shortcode});
              });
  
              const postDoc = new Post(
@@ -338,8 +320,7 @@ async function BrowseShop(shopId, after)
                     id: post.id,
                     type: node.__typename,
                     caption: post.caption,
-                    imageUrl: post.images[0].display_url,
-                    imageUrlSmall: post.images[0].small_image_url,
+                    shortCode: post.shortCode,
                     likes: post.likes,
                     postTimeStamp: post.timeStamp,
                 }
@@ -348,14 +329,15 @@ async function BrowseShop(shopId, after)
             if (!await Post.findOne({id: post.id, shopId: shopId}))
             {
                await postDoc.save();
-               post.images.forEach( async (image, index) => {
+               post.children.forEach( async (child, index) => {
                 const postImage = new PostImage(
                     {
                         timeStamp: new Date(),
                         shopId: shopId,
-                        id: post.id,
-                        imageUrl: image.display_url,
-                        imageUrlSmall: image.small_image_url,
+                        parentId: post.id,
+                        id: child.id,
+                        type: child.type,
+                        shortCode: child.shortCode,
                         isMainImage: (index === 0)
                     }
                 );

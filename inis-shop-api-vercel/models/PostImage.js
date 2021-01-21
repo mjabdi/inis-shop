@@ -12,19 +12,24 @@ const PostImageSchema = new mongoose.Schema({
         required: true
     },    
 
-    id: {
-        type: String,
-        required: true
-    },   
-
-    imageUrl: {
+    parentId: {
         type: String,
         required: true
     },
 
-    imageUrlSmall: {
+    id: {
         type: String,
         required: true
+    }, 
+   
+    type: {
+        type: String,
+        required: true
+    },
+
+    shortCode:{
+        type: String,
+        required: false
     },
 
     isMainImage: {

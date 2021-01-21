@@ -26,17 +26,12 @@ const PostSchema = new mongoose.Schema({
         type: String,
         default: ''
     }, 
+
+    shortCode:{
+        type: String,
+        required: true
+    },
     
-    imageUrl: {
-        type: String,
-        required: true
-    },
-
-    imageUrlSmall: {
-        type: String,
-        required: true
-    },
-
     postTimeStamp: {
         type: Date,
         required: true

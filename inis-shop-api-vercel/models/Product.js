@@ -79,14 +79,9 @@ const ProductSchema = new mongoose.Schema({
         required: false
     },
 
-    imageUrl: {
+    shortCode: {
         type: String,
-        required: true
-    },
-
-    imageUrlSmall: {
-        type: String,
-        required: true
+        required: false
     },
 
     lastUpdate: {

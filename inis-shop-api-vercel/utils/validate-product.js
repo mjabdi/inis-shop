@@ -29,16 +29,6 @@ export default async function ValidateProduct(body, editMode)
         throw new Error('title is missing')
     }
 
-    if (!body.imageUrl)
-    {
-        throw new Error('imageUrl is missing')
-    }
-
-    if (!body.imageUrlSmall)
-    {
-        throw new Error('ImageUrlSmall is missing')
-    }
-
     const post = await Post.findOne({id: body.postId, shopId: body.shopId})
     if (!post)
     {
