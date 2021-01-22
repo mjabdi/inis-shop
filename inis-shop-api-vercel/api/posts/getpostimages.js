@@ -21,7 +21,7 @@ const handler = async (req, res) => {
                         return;
                     }
                     await dbConnect()
-                    const postImages = await PostImage.find({id: post_id}).sort({timeStamp : -1}).exec()
+                    const postImages = await PostImage.find({parentId: post_id}).sort({timeStamp : -1}).exec()
                
                     res.status(200).send({status:'OK' , postImages: postImages})
                 }
