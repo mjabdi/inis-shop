@@ -3,12 +3,15 @@ const logger = require('./utils/logger')();
 const axios = require('axios');
 const { Post } = require("./models/Post");
 const { PostImage } = require("./models/PostImage");
+const { Product }  = require("./models/Product");
 
 const fs = require('fs')
 const path = require('path');
 const { cat } = require("shelljs");
 
 const imageDownloader = require('image-downloader')
+const cloudinary = require('cloudinary').v2;
+
 
 
 const InstagramFeedServiceModule = {};
@@ -20,6 +23,8 @@ let BrowseShopTimer = null;
 
 let FindUpdateShopsTimer = null;
 let UpdateShopTimer = null;
+
+let uploadImageTimer = null;
 
 const ShopsToBrowse = [];
 
@@ -52,12 +57,22 @@ InstagramFeedServiceModule.stop = () =>
         clearInterval(UpdateShopTimer);
     }
 
+    if (uploadImageTimer)
+    {
+        clearInterval(uploadImageTimer)
+    }
+
     logger.info('InstagramFeedService Stopped.');
 }
 
 InstagramFeedServiceModule.start = () =>
 {
     logger.info('InstagramFeedService Started.');
+    process.env['CLOUDINARY_CLOUD_NAME'] = 'db6c6yplb';
+    process.env['CLOUDINARY_API_KEY'] = '721472314272944';
+    process.env['CLOUDINARY_API_SECRET'] = 'Hm1pUHvCKX3cwCX66rWxM1Q2D_Q';
+    
+
 
     FindNewShopsTimer = setInterval(() => {
         findNewShopsToBrowse();
@@ -76,7 +91,45 @@ InstagramFeedServiceModule.start = () =>
     UpdateShopTimer = setInterval( () => {
         ScheduleUpdateShops();
     }, 20000);
+
+    uploadImageTimer = setInterval( () => {
+        uploadOneImage();
+    },10000)
 }
+
+const uploadOneImage = async () => {
+  try {
+   
+    const post = await Post.findOne({ imageUrl: { $regex: ".*instagram.*" } })
+      .sort({ timeStamp: 1 })
+      .exec();
+    if (post) {
+      console.log(`uploading ${post.imageUrl} to cloudinary`);
+        cloudinary.config({ 
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET
+        });
+      cloudinary.uploader.upload(post.imageUrl, async function (error, result) {
+        if (!error) {
+          
+          await Product.updateMany({imageUrl: post.imageUrl}, {imageUrl: result.url});
+          await PostImage.updateMany({imageUrl: post.imageUrl}, {imageUrl: result.url}); 
+
+          post.imageUrl = result.url;
+          await post.save()           
+
+        } else {
+          console.log(`error : ${error}`);
+        }
+      });
+    } else {
+    //   console.log("no new posts found for upload image");
+    }
+  } catch (ex) {
+    console.log(`error : ${ex}`);
+  }
+};
 
 async function findShopsToUpdate()
 {
@@ -271,7 +324,7 @@ async function BrowseShop(shopId, after)
     
      console.log(getFetchUrl(shopId, page_size, after));
      const allRows =  await axios.get(getFetchUrl(shopId, page_size, after));
-     console.log(allRows.data.data)
+    //  console.log(allRows.data.data)
      const allRowsData = JSON.parse(JSON.stringify(allRows.data.data));
      const edges = allRowsData.user.edge_owner_to_timeline_media.edges;
      const end_cursor =  allRowsData.user.edge_owner_to_timeline_media.page_info.end_cursor;

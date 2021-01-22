@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ProductSchema = new mongoose.Schema({
+const Product = mongoose.model('Product',  new mongoose.Schema({
   
     timeStamp: {
         type: Date,
@@ -99,7 +99,7 @@ const ProductSchema = new mongoose.Schema({
         required: false
     }
 
-})
+}))
 
 
-export default mongoose.models.Product || mongoose.model('Product', ProductSchema)
+exports.Product = Product; 
