@@ -27,7 +27,7 @@ const PostSchema = new mongoose.Schema({
         default: ''
     }, 
 
-    shortCode:{
+    imageUrl:{
         type: String,
         required: true
     },

@@ -27,7 +27,7 @@ const Post = mongoose.model('post', new mongoose.Schema({
         default: ''
     }, 
     
-    shortCode:{
+    imageUrl:{
         type: String,
         required: true
     },

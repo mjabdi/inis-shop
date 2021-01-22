@@ -4,9 +4,16 @@ const axios = require('axios');
 const { Post } = require("./models/Post");
 const { PostImage } = require("./models/PostImage");
 
+const fs = require('fs')
+const path = require('path');
+const { cat } = require("shelljs");
+
+const imageDownloader = require('image-downloader')
+
 
 const InstagramFeedServiceModule = {};
 
+const IMAGE_DIR = 'd:/insta_images/'
 
 let FindNewShopsTimer = null;
 let BrowseShopTimer = null;
@@ -124,6 +131,8 @@ async function UpdateShop(shopId, after)
 
     let found = false;
 
+   
+
    for (var i=0 ;i < edges.length; i++)
    {
        const item = edges[i];
@@ -133,7 +142,7 @@ async function UpdateShop(shopId, after)
         {
             let post = {};
             post.id = node.id;
-            post.shortCode = node.shortcode;
+            post.imageUrl =  node.display_resources[0].src;
             post.caption = node.edge_media_to_caption.edges[0] ?  node.edge_media_to_caption.edges[0].node.text : '';
             post.likes = node.edge_media_preview_like.count;
             post.timeStamp = new Date(node.taken_at_timestamp * 1000);
@@ -145,7 +154,7 @@ async function UpdateShop(shopId, after)
                     id: post.id,
                     type: node.__typename,
                     caption: post.caption,
-                    shortCode: post.shortCode,
+                    imageUrl: post.imageUrl,
                     likes: post.likes,
                     postTimeStamp : post.timeStamp,
                 }
@@ -166,7 +175,7 @@ async function UpdateShop(shopId, after)
         {
             let post = {};
             post.id = node.id;
-            post.shortCode = node.shortcode;
+            post.imageUrl =  node.display_resources[0].src;
             post.caption = node.edge_media_to_caption.edges[0] ?  node.edge_media_to_caption.edges[0].node.text : '';
             post.likes = node.edge_media_preview_like.count;
             post.timeStamp = new Date(node.taken_at_timestamp * 1000);
@@ -174,9 +183,11 @@ async function UpdateShop(shopId, after)
             
             post.children = [];
 
-            node.edge_sidecar_to_children.edges.forEach(child => {
-                post.children.push({type: child.node.__typename, shortCode: child.node.shortcode});
-            });
+            for (var i=0 ; i <  node.edge_sidecar_to_children.edges.length; i++)
+             {
+                 const child =  node.edge_sidecar_to_children.edges[i]
+                 post.children.push({id: child.node.id, type: child.node.__typename, imageUrl: child.node.display_resources[0].src});
+             }
 
             const postDoc = new Post(
                {
@@ -185,7 +196,7 @@ async function UpdateShop(shopId, after)
                    id: post.id,
                    type: node.__typename,
                    caption: post.caption,
-                   shortCode: post.shortCode,
+                   imageUrl: post.imageUrl,
                    likes: post.likes,
                    postTimeStamp: post.timeStamp,
                }
@@ -202,7 +213,7 @@ async function UpdateShop(shopId, after)
                         shopId: shopId,
                         id: post.id,
                         type: child.type,
-                        shortCode: child.shortCode,
+                        imageUrl: child.imageUrl,
                         isMainImage: (index === 0)
                     }
                 );
@@ -260,24 +271,27 @@ async function BrowseShop(shopId, after)
     
      console.log(getFetchUrl(shopId, page_size, after));
      const allRows =  await axios.get(getFetchUrl(shopId, page_size, after));
+     console.log(allRows.data.data)
      const allRowsData = JSON.parse(JSON.stringify(allRows.data.data));
      const edges = allRowsData.user.edge_owner_to_timeline_media.edges;
      const end_cursor =  allRowsData.user.edge_owner_to_timeline_media.page_info.end_cursor;
      const has_next_page = allRowsData.user.edge_owner_to_timeline_media.page_info.has_next_page;
 
-
+   
  
-     edges.forEach(async item => {
+     for (var eindex = 0; eindex < edges.length; eindex++) {
+        //  await sleep(1000)
+         const item = edges[eindex]
          const node = item.node;
          if (node.__typename === 'GraphImage')
          {
              let post = {};
              post.id = node.id;
-             post.shortCode = node.shortcode;
              post.caption = node.edge_media_to_caption.edges[0] ?  node.edge_media_to_caption.edges[0].node.text : '';
              post.likes = node.edge_media_preview_like.count;
              post.timeStamp = new Date(node.taken_at_timestamp * 1000);
- 
+             post.imageUrl = node.display_resources[0].src
+
              const postDoc = new Post(
                  {
                      timeStamp : new Date(),
@@ -285,7 +299,7 @@ async function BrowseShop(shopId, after)
                      id: post.id,
                      type: node.__typename,
                      caption: post.caption,
-                     shortCode: post.shortCode,
+                     imageUrl: post.imageUrl,
                      likes: post.likes,
                      postTimeStamp : post.timeStamp,
                  }
@@ -300,18 +314,18 @@ async function BrowseShop(shopId, after)
          {
              let post = {};
              post.id = node.id;
-             post.shortCode = node.shortcode;
              post.caption = node.edge_media_to_caption.edges[0] ?  node.edge_media_to_caption.edges[0].node.text : '';
              post.likes = node.edge_media_preview_like.count;
              post.timeStamp = new Date(node.taken_at_timestamp * 1000);
-           
+             post.imageUrl = node.display_resources[0].src
              
              post.children = [];
- 
-             node.edge_sidecar_to_children.edges.forEach(child => {
-                //  console.log(child)
-                 post.children.push({id: child.node.id, type: child.node.__typename, shortCode: child.node.shortcode});
-             });
+
+             for (var i=0 ; i <  node.edge_sidecar_to_children.edges.length; i++)
+             {
+                 const child =  node.edge_sidecar_to_children.edges[i]
+                 post.children.push({id: child.node.id, type: child.node.__typename, imageUrl: child.node.display_resources[0].src});
+             }
  
              const postDoc = new Post(
                 {
@@ -320,7 +334,7 @@ async function BrowseShop(shopId, after)
                     id: post.id,
                     type: node.__typename,
                     caption: post.caption,
-                    shortCode: post.shortCode,
+                    imageUrl: post.imageUrl,
                     likes: post.likes,
                     postTimeStamp: post.timeStamp,
                 }
@@ -337,7 +351,7 @@ async function BrowseShop(shopId, after)
                         parentId: post.id,
                         id: child.id,
                         type: child.type,
-                        shortCode: child.shortCode,
+                        imageUrl: child.imageUrl,
                         isMainImage: (index === 0)
                     }
                 );
@@ -345,12 +359,55 @@ async function BrowseShop(shopId, after)
               });
             }
          }
-     });
+     };
 
      await Shop.updateOne({id : shopId}, {end_cursor : end_cursor});
 
      return end_cursor;
 }
+
+const download_image = async (url, image_path) =>{
+    url = url.replace('https', 'http')
+    await sleep(100)
+    ensureDirectoryExistence(image_path)
+    await imageDownloader.image({
+        url: url,
+        dest: image_path,
+        extractFilename: false
+    }
+    
+    )
+    // axios({
+    //     url,
+    //     responseType: 'stream',
+    //   }, {
+    //     timeout: 1000 * 50, // Wait for 5 seconds
+    //   }).then(  
+    //     response =>
+    //       new Promise((resolve, reject) => {
+    //         response.data
+    //           .pipe(fs.createWriteStream(image_path))
+    //           .on('finish', () => resolve())
+    //           .on('error', e => reject(e));
+    //       }),
+    //   ).catch(err => console.log(err));
+}    
+
+function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }   
+  
+
+  function ensureDirectoryExistence(filePath) {
+    var dirname = path.dirname(filePath);
+    if (fs.existsSync(dirname)) {
+      return true;
+    }
+    ensureDirectoryExistence(dirname);
+    fs.mkdirSync(dirname);
+  }
 
 const getFetchUrl = (id, first, after) =>
 {
