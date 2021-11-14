@@ -11,7 +11,7 @@ const handler = async (req, res) => {
         try {
 
           const result = await axios
-          .post('https://api.pinksale.Finance/api/v1/view', {chain_id: 56, pool_address: "0xB6B7DDA15543cCC4792616fdADE52f7220558d5A"}
+          .post('https://api.pinksale.Finance/api/v1/view', {chain_id: 56, pool_address: "0x5939d8d7c141033BAE48c148F39F193D9D9B6517"}
           );
 
 
