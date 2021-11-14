@@ -11,7 +11,7 @@ const handler = async (req, res) => {
         try {
 
           const result = await axios
-          .post('https://api.pinksale.Finance/api/v1/view', {chain_id: 56, "pool_address": "0xB6B7DDA15543cCC4792616fdADE52f7220558d5A"}
+          .post('https://api.pinksale.Finance/api/v1/view', {chain_id: 56, pool_address: "0xB6B7DDA15543cCC4792616fdADE52f7220558d5A"}
           );
 
 
@@ -19,7 +19,7 @@ const handler = async (req, res) => {
           res.status(200).send({status: result.status})
             
         } catch (err) {
-          res.status(400).json({ status: "FAILED", error: err.message });
+          res.status(400).send({ status: "FAILED", error: err.message });
         }
         break;
       default:
