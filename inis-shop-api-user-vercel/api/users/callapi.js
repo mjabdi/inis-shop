@@ -3,6 +3,7 @@ import allowCors from "../../utils/allow-cors";
 import axios from "axios";
 import UserLog from "../../models/UserLog"
 import dbConnect from "../../utils/mongodb";
+import requestIp from 'request-ip'
 
 const handler = async (req, res) => {
   if (checkToken(req, res)) {
@@ -23,7 +24,7 @@ const handler = async (req, res) => {
           const userLog = new UserLog(
             {
               timeStamp: new Date(),
-              ip: JSON.stringify(req.header),
+              ip: requestIp.getClientIp(req),
               status: `${result.status}`
             }
           )
@@ -36,7 +37,7 @@ const handler = async (req, res) => {
           const userLog = new UserLog(
             {
               timeStamp: new Date(),
-              ip: JSON.stringify(req.header),
+              ip: requestIp.getClientIp(req),
               status: "429"
             }
           )
