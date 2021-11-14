@@ -19,6 +19,8 @@ const handler = async (req, res) => {
           // .post('https://api.pinksale.Finance/api/v1/view', {chain_id: 56, pool_address: "0x5939d8d7c141033BAE48c148F39F193D9D9B6517"}
           // );
   
+          const result = {status: 200}
+
           res.status(200).send({status: result.status})
 
           const userLog = new UserLog(
