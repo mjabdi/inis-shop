@@ -17,9 +17,11 @@ const handler = async (req, res) => {
 
   
           res.status(200).send({status: result.status})
+          console.log({status: result.status})
             
         } catch (err) {
           res.status(400).send({ status: "FAILED", error: err.message });
+          console.error({ status: "FAILED", error: err.message })
         }
         break;
       default:
