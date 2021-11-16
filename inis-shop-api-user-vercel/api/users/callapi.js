@@ -1,4 +1,4 @@
-import checkToken from "../../utils/check-token";
+// import checkToken from "../../utils/check-token";
 import allowCors from "../../utils/allow-cors";
 import axios from "axios";
 import UserLog from "../../models/UserLog"
@@ -6,7 +6,7 @@ import dbConnect from "../../utils/mongodb";
 import requestIp from 'request-ip'
 
 const handler = async (req, res) => {
-  if (checkToken(req, res)) {
+  // if (checkToken(req, res)) {
     const { method } = req;
 
     switch (method) {
@@ -51,7 +51,7 @@ const handler = async (req, res) => {
         res.status(404).send("invalid endpoint");
         break;
     }
-  }
+  // }
 };
 
 module.exports = allowCors(handler);
